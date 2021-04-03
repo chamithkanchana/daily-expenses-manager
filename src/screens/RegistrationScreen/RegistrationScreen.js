@@ -38,6 +38,7 @@ export default function RegistrationScreen({navigation}) {
             id: uid,
             email,
             fullName,
+            
           };
 
           const usersRef = db.collection('users');
