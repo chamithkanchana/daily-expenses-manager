@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  SafeAreaView,
   FlatList,
   Keyboard,
   Text,
@@ -7,8 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {Card, ListItem, Button, Icon} from 'react-native-elements';
 import styles from './styles';
 import {db, firebase} from '../../firebase/config';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 export default function HomeScreen(props) {
   const [entityText, setEntityText] = useState('');
@@ -71,31 +75,63 @@ export default function HomeScreen(props) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add new entity"
-          placeholderTextColor="#aaaaaa"
-          onChangeText={text => setEntityText(text)}
-          value={entityText}
-          underlineColorAndroid="transparent"
-          autoCapitalize="none"
-        />
-        <TouchableOpacity style={styles.button} onPress={onAddButtonPress}>
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-      </View>
-      {entities && (
-        <View style={styles.listContainer}>
-          <FlatList
-            data={entities}
-            renderItem={renderEntity}
-            keyExtractor={item => item.id}
-            removeClippedSubviews={true}
+    <SafeAreaView style={styles.container}>
+      {/* <Button
+        title="Go to Details"
+        onPress={() => props.navigation.navigate('Income')}
+      /> */}
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate('Income')}
+        style={{width: '100%'}}>
+        <Card style={{flex: 1, width: 100}}>
+          <Card.Title>INCOME MANAGEMENT</Card.Title>
+          <Card.Divider />
+          <Text style={{marginBottom: 10}}>Note down your all incomes</Text>
+          <Button
+            title="VIEW"
+            onPress={() => props.navigation.navigate('Income')}
           />
+        </Card>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => props.navigation.navigate('Income')}
+        style={{width: '100%'}}>
+        <Card>
+          <Card.Title>EXPENSES MANAGEMENT</Card.Title>
+          <Card.Divider />
+          <Text style={{marginBottom: 10}}>Note down your all expenses</Text>
+          <Button title="VIEW" />
+        </Card>
+      </TouchableOpacity>
+
+      <View>
+        <View style={styles.formContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Add new entity"
+            placeholderTextColor="#aaaaaa"
+            onChangeText={text => setEntityText(text)}
+            value={entityText}
+            underlineColorAndroid="transparent"
+            autoCapitalize="none"
+          />
+          <TouchableOpacity style={styles.button} onPress={onAddButtonPress}>
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
         </View>
-      )}
-    </View>
+        {entities && (
+          <View style={styles.listContainer}>
+            <FlatList
+              data={entities}
+              renderItem={renderEntity}
+              keyExtractor={item => item.id}
+              removeClippedSubviews={true}
+            />
+          </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 }
